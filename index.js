@@ -1,22 +1,24 @@
 const game = new Game();
-var background = new Background("spaceBackground.jpg",0);
+var background = new Background("spaceBackground.jpg", 0);
 
 game.addSprite(background);
+
 const paddle = new Paddle(350, 550, 100, 20);
 game.addSprite(paddle);
 
-const ball = new Ball(400, 300, 10); 
+const ball = new Ball(400, 300, 10);
 game.addSprite(ball);
 
+const score = new Score(10, 20);
+game.addSprite(score);
 
-for (let i = 0; i < 5; i++) {
-    for (let j = 0; j < 10; j++) {
-        const resistance = Math.floor(Math.random() * 3) + 1; 
-        const brick = new Brick(80 * j, 30 * i, 70, 20, resistance);
-        game.addSprite(brick);
-    }
-}
+const lives = new Lives(700, 20);
+game.addSprite(lives);
 
+// Initialize the first level
+const firstLevel = new Level(1, 5, 10, 3, game, ball, score, lives);
+game.currentLevel = firstLevel;
+firstLevel.generateBricks();
 
-
+// Start the game
 game.animate();
