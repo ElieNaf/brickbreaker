@@ -45,7 +45,7 @@ class Level {
 
     brickDestroyed() {
         this.brokenBricksCount++;
-        this.score.increment(); // Increment score when a brick is destroyed
+      
 
         if (this.brokenBricksCount === this.totalBricks) {
             if (this.levelNumber === 2) {
