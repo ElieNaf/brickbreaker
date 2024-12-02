@@ -12,6 +12,10 @@ game.addSprite(ball);
 const score = new Score(10, 20);
 game.addSprite(score);
 
+const hero = new Hero("heroSpritesheet.png", 640, 5, 1536, 256, 90, 6, 0.25); // Adjust position next to the score
+game.addSprite(hero);
+
+
 const lives = new Lives(700, 20);
 game.addSprite(lives);
 
