@@ -49,15 +49,13 @@ class Level {
 
         if (this.brokenBricksCount === this.totalBricks) {
             if (this.levelNumber === 2) {
-                // End the game if Level 2 is completed
-                alert("Game Over! You completed all levels!");
                 this.game.paused = true;
                 return;
             }
 
             // Transition to the next level
             const nextLevelNumber = this.levelNumber + 1;
-            const nextLevelConfig = this.getLevelConfig(nextLevelNumber); // Get configuration for the next level
+            const nextLevelConfig = this.getLevelConfig(nextLevelNumber); 
             const nextLevel = new Level(
                 nextLevelNumber,
                 nextLevelConfig.rows,
