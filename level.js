@@ -11,6 +11,8 @@ class Level {
         this.brokenBricksCount = 0; // Count of broken bricks
         this.totalBricks = rows * cols; // Total bricks in this level
         this.powerUpsActivated = levelNumber > 1; // Activate power-ups after Level 1
+     
+        this.generateBricks();
     }
 
     generateBricks() {
