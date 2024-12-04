@@ -1,10 +1,10 @@
-class Necromancer extends Sprite {
+class Shadow extends Sprite {
     constructor(imagePath, x, y, width, height, timePerFrame, numberOfFrames, scale = 1) {
         super();
 
-        var necromancerSpritesheet = new Image();
-        necromancerSpritesheet.src = imagePath;
-        this.spritesheet = necromancerSpritesheet; 
+        var shadowSpritesheet = new Image();
+        shadowSpritesheet.src = imagePath;
+        this.spritesheet = shadowSpritesheet; 
         this.x = x;  
         this.y = y;
         this.width = width;        // Total width of the spritesheet row
@@ -30,7 +30,7 @@ class Necromancer extends Sprite {
         ctx.drawImage(
             this.spritesheet,
             this.frameIndex * frameWidth, // Source X (moves horizontally to the next frame)
-            0,                           // Source Y (Idle animation is in the first row)
+            0,                           // Source Y (animation is in the first row)
             frameWidth,                  // Source Width
             this.height,                 // Source Height
             this.x,                      // Destination X

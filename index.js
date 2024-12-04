@@ -15,18 +15,17 @@ game.addSprite(score);
 const hero = new Hero("heroSpritesheet.png", 640, 5, 1536, 256, 90, 6, 0.25);
 game.addSprite(hero);
 
-// Add Necromancer (using 48x48 idle animation spritesheet)
-const necromancer = new Necromancer(
-    "Idel Animation 48x48.png", // Path to the idle animation spritesheet
+// Add Necromancer (using 48x48 jump animation spritesheet)
+const necromancer = new Shadow(
+    "Jump Animation 48x48.png", // Path to the jump animation spritesheet
     700, // X position (to the right of the hero)
-    15, // Y position
-    192, // Total width of the spritesheet (48px * 4 frames)
+    20, // Y position
+    288, // Total width of the spritesheet (48px * 6 frames)
     48, // Height of each frame
-    200, // Time per frame in milliseconds (adjust for animation speed)
-    4 // Number of frames in the idle animation
+    150, // Time per frame in milliseconds (adjust for animation speed)
+    6 // Number of frames in the jump animation
 );
 game.addSprite(necromancer);
-
 const lives = new Lives(700, 20);
 game.addSprite(lives);
 
