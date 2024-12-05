@@ -16,7 +16,7 @@ const hero = new Hero("heroSpritesheet.png", 640, 5, 1536, 256, 90, 6, 0.25);
 game.addSprite(hero);
 
 // Add Necromancer (using 48x48 jump animation spritesheet)
-const necromancer = new Shadow(
+const shadow = new Shadow(
     "Jump Animation 48x48.png", // Path to the jump animation spritesheet
     700, // X position (to the right of the hero)
     20, // Y position
@@ -25,9 +25,16 @@ const necromancer = new Shadow(
     150, // Time per frame in milliseconds (adjust for animation speed)
     6 // Number of frames in the jump animation
 );
-game.addSprite(necromancer);
+game.addSprite(shadow);
 const lives = new Lives(700, 20);
 game.addSprite(lives);
+
+// Add background sound
+const backgroundSound = new Sound("backgroundSound.wav", true); // Adjust path to your sound file
+game.addSprite(backgroundSound);
+
+const ballHitSound = new Sound("ballHit.wav", false); // Adjust path to your sound file
+game.addSprite(ballHitSound);
 
 // Add StartScreen
 const startScreen = new StartScreen(game, ball, score, lives);
