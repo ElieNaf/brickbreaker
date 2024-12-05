@@ -1,7 +1,4 @@
 class PowerUp extends Sprite {
-    static activePowerUp = null; // Tracks the currently active power-up
-    static activePowerUpTimeout = null; // Timeout reference for clearing the active state
-
     constructor(x, y, type, level) {
         super();
         this.x = x;
@@ -9,8 +6,9 @@ class PowerUp extends Sprite {
         this.width = 20;
         this.height = 20;
         this.speed = 3;
-        this.type = type; // Define power-up type (e.g., 'multi-ball', 'paddle-expand')
+        this.type = type; // Define power-up type (e.g., 'paddle-expand', 'speed-boost', 'ball-speed')
         this.level = level; // Reference to the level instance
+        this.duration = 300; // Effect duration in frames (5 seconds at 60 FPS)
     }
 
     update(sprites) {
@@ -32,48 +30,56 @@ class PowerUp extends Sprite {
     }
 
     activate(sprites) {
-        if (PowerUp.activePowerUp) return; // Prevent activation if another power-up is active
+        const paddle = sprites.find(sprite => sprite instanceof Paddle);
+        const ball = sprites.find(sprite => sprite instanceof Ball);
 
-        PowerUp.activePowerUp = this.type;
-
-        // Handle the effect of the power-up
-        if (this.type === 'multi-ball') {
-            const ball = sprites.find(sprite => sprite instanceof Ball);
-            if (ball) {
-                for (let i = -1; i <= 1; i++) {
-                    const newBall = new Ball(ball.x, ball.y, ball.radius);
-                    newBall.dx = ball.dx + i;
-                    newBall.dy = ball.dy;
-                    this.level.game.addSprite(newBall); // Add the new ball to the game
+        switch (this.type) {
+            case 'paddle-expand':
+                if (paddle && !paddle.expanded) {
+                    paddle.expanded = true; // Track effect to prevent stacking
+                    paddle.width += 50;
+                    paddle.remainingFrames = this.duration;
                 }
-            }
-        } else if (this.type === 'paddle-expand') {
-            const paddle = sprites.find(sprite => sprite instanceof Paddle);
-            if (paddle) {
-                paddle.width += 50; // Increase paddle width
-                setTimeout(() => {
-                    paddle.width -= 50; // Revert paddle width after 5 seconds
-                }, 5000);
-            }
-        }
+                break;
 
-        // Set a timeout to clear the active state after 5 seconds
-        PowerUp.activePowerUpTimeout = setTimeout(() => {
-            PowerUp.activePowerUp = null; // Allow new power-ups to spawn
-        }, 5000); // Active duration: 5 seconds
+            case 'speed-boost':
+                if (paddle && !paddle.boosted) {
+                    paddle.boosted = true; // Track effect to prevent stacking
+                    paddle.speed += 3;
+                    paddle.remainingFrames = this.duration;
+                }
+                break;
+
+            case 'ball-speed':
+                if (ball && !ball.speedBoosted) {
+                    ball.speedBoosted = true; // Track effect to prevent stacking
+                    ball.dx *= 1.5;
+                    ball.dy *= 1.5;
+                    ball.remainingFrames = this.duration;
+                }
+                break;
+
+            default:
+                console.warn(`Unknown power-up type: ${this.type}`);
+        }
     }
 
     draw(ctx) {
-        ctx.fillStyle = "gold";
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-    }
-
-    static reset() {
-        // Clear active power-up state and timeout
-        PowerUp.activePowerUp = null;
-        if (PowerUp.activePowerUpTimeout) {
-            clearTimeout(PowerUp.activePowerUpTimeout);
-            PowerUp.activePowerUpTimeout = null;
+        let color;
+        switch (this.type) {
+            case 'paddle-expand':
+                color = 'blue';
+                break;
+            case 'speed-boost':
+                color = 'green';
+                break;
+            case 'ball-speed':
+                color = 'red';
+                break;
+            default:
+                color = 'gold';
         }
+        ctx.fillStyle = color;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 }

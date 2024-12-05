@@ -10,7 +10,7 @@ class Brick extends Sprite {
   }
 
   update() {
-      return this.resistance <= 0;
+      return this.resistance <= 0; // Brick disappears when resistance is 0
   }
 
   draw(ctx) {
@@ -35,26 +35,22 @@ class Brick extends Sprite {
 
           // Play the ballHit sound
           const ballHitSound = this.level.game.sprites.find(
-              (sprite) => sprite instanceof Sound && sprite.audio.src.includes("ballHit")
+              (sprite) =>
+                  sprite instanceof Sound && sprite.audio.src.includes("ballHit")
           );
           if (ballHitSound) {
               ballHitSound.audio.currentTime = 0; // Reset sound
               ballHitSound.audio.play();
           }
 
-          // Notify the Level instance when a brick is destroyed
-          if (this.resistance <= 0) {
+          // Only notify the Level when the brick is fully destroyed
+          if (this.resistance === 0) {
               this.level.score.increment(); // Increment the score
               this.level.brickDestroyed(); // Notify the level
 
-              // Spawn power-ups if no power-up is currently active
-              if (
-                  this.level.powerUpsActivated &&
-                  !PowerUp.activePowerUp &&
-                  Math.random() < 0.3
-              ) {
-                  const powerUpType =
-                      Math.random() < 0.5 ? "multi-ball" : "paddle-expand";
+              // Spawn power-ups
+              if (this.level.powerUpsActivated && Math.random() < 0.3) {
+                  const powerUpType = Math.random() < 0.5 ? "paddle-expand" : "speed-boost";
                   const powerUp = new PowerUp(
                       this.x + this.width / 2,
                       this.y,

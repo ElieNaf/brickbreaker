@@ -63,7 +63,7 @@ class StartScreen extends Sprite {
 
     createFirstLevel() {
         const firstLevel = new Level(
-            1,
+            2,
             5,
             10,
             3,
